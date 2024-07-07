@@ -1,8 +1,14 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Game {
-    int population;
-    int hawkPop;
-    int resource;
-    int cost;
+    private int population;
+    private int hawkPop;
+    private int resource;
+    private int cost;
+    private ArrayList<Object> popList = new ArrayList<>();
+    
+
 
     // Constructor if all args defined
     Game(int population, int hawkPop, int resourceAmt, int cost){
@@ -13,11 +19,116 @@ public class Game {
     }
 
     public void start() {
-        //write the simulation here
+        initpopulation();
+        Scanner scanner = new Scanner(System.in);
+       while (true) {
+           displayMenu();
+           // TODO
+           //ask the user for input a number between 1-8 and call the necessary method
+           System.out.print("Enter a number between 1-8: ");
+           int option = scanner.nextInt();
+
+           switch (option) {
+               case 1:
+                   displayStats();
+                   break;
+               case 2:
+                   displayIndividuals();
+                   break;
+               case 3:
+                   displaySorted();
+                   break;
+               case 4:
+                   have1000Interactions();
+                   break;
+               case 5:
+                   have1000Interactions();
+                   break;
+               case 6:
+                   have1000Interactions();
+                   break;
+               case 7:
+                   stepThroughInteractions();
+                   break;
+               case 8:
+                   return;
+           }
+       }
+    }
+
+    private void displayStats() {
+        System.out.println("Population size: " + population);
+        System.out.println("Percentage of Hawks: " + (hawkPop * 100 / population) + "%");
+        System.out.println("Number of Hawks: " + hawkPop);
+        System.out.println();
+        System.out.println("Percentage of Doves: " + (100 - (hawkPop * 100 / population)) + "%");
+        System.out.println("Number of Doves: " + (population - hawkPop));
+        System.out.println();
+        System.out.println("Each resource is worth: " + resource);
+        System.out.println("Cost of Hawk-Hawk interaction: " + cost);
+        System.out.println();
+    }
+
+    private void stepThroughInteractions() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'stepThroughInteractions'");
+    }
+
+    private void have1000Interactions() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'have1000Interactions'");
+    }
+
+    private void displaySorted() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'displaySorted'");
+    }
+
+    private void displayIndividuals() {
+    //    int liveCount = 0;
+    //    for (int i = 0; i < popList.size(); i++) {
+    //        if (((Dove)popList.get(i)).isAlive()) {
+    //            liveCount++;
+    //        }
+    //    }
+    //    System.out.println("Total population: " + popList.size());
+    //    System.out.println("Total alive population: " + liveCount);
+    //    System.out.println("Total resource: " + resource);
+    //    System.out.println();
+
+    //    for (int i = 0; i < popList.size(); i++) {
     }
 
     public void displayMenu() {
-        //write the menu here
+        System.out.println("===============MENU=============");
+        System.out.println("1 ) Starting Stats");
+        System.out.println("2 ) Display Individuals and Points");
+        System.out.println("3 ) Display Sorted");
+        System.out.println("4 ) Have 1000 interactions");
+        System.out.println("5 ) Have 10000 interactions");  
+        System.out.println("6 ) Have n interactions"); 
+        System.out.println("7 )Step through interactions \"Stop\" to return to menu");
+        System.out.println("8 ) Quit");
+        System.out.println("================================");
+        System.out.println();
+    }
+
+    public void initpopulation(){
+        for (int i = 0; i < population; i++) {
+            popList.add(new Dove(i));
+        }  
+
+        for (int i = 0; i < hawkPop; i++) {
+            popList.add(new Hawk(i));
+        }
+        //shuffle the list
+        for (int i = 0; i < popList.size(); i++) {
+            int index = (int)(Math.random() * popList.size());
+            Object temp = popList.get(index);
+            popList.set(index, popList.get(i));
+            popList.set(i, temp);
+        }
+
     }
 
 
@@ -30,7 +141,7 @@ public class Game {
 
         int population = Integer.parseInt(args[0]);
         int hawkPercent = (args.length > 1) ? Integer.parseInt(args[1]) : 20;
-        int hawkPop = (int)(population * (hawkPercent / 100.0));
+        int hawkPop = (int)(population * (hawkPercent / 100.0)); 
         int resourceAmt = (args.length > 2) ? Integer.parseInt(args[2]) : 50;
         int cost = (args.length > 3) ? Integer.parseInt(args[3]) : 100;
 
