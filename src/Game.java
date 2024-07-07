@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -14,7 +17,7 @@ public class Game {
     Game(int population, int hawkPop, int resourceAmt, int cost){
         this.population = population;
         this.hawkPop = hawkPop;
-        this.resource = resource;
+        this.resource = resourceAmt;
         this.cost = cost;
     }
 
@@ -51,9 +54,11 @@ public class Game {
                    stepThroughInteractions();
                    break;
                case 8:
+                   scanner.close();
                    return;
            }
        }
+       
     }
 
     private void displayStats() {
@@ -80,9 +85,38 @@ public class Game {
     }
 
     private void displaySorted() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'displaySorted'");
+        List<Dove> doves = new ArrayList<>();
+        List<Hawk> hawks = new ArrayList<>();
+
+        // Populate the doves and hawks lists
+        for (Object o : popList) {
+            if (o instanceof Dove) {
+                doves.add((Dove) o);
+            }
+            if (o instanceof Hawk) {
+                hawks.add((Hawk) o);
+            }
+        }
+
+        // Sort the doves and hawks lists based on resource value in descending order
+        Collections.sort(doves, Comparator.comparingInt(Dove::getResource).reversed());
+        Collections.sort(hawks, Comparator.comparingInt(Hawk::getResource).reversed());
+
+        // Display the sorted list of individuals
+        int i =0;
+        int j=0;
+        while(i<doves.size() && j<hawks.size()) {
+            if(doves.get(i).getResource() > hawks.get(j).getResource()) {
+                System.out.println(doves.get(i).isAlive() ? "Dove" : "Dead" + doves.get(i).getResource());
+                i++;
+            } else {
+                System.out.println(hawks.get(j).isAlive() ? "Hawk" : "Dead" + hawks.get(j).getResource());
+                j++;
+            }
+        }
     }
+        
+    
 
     private void displayIndividuals() {
         int alivecount = 0;
@@ -118,19 +152,12 @@ public class Game {
     }
 
     public void initpopulation(){
-        for (int i = 0; i < population; i++) {
-            popList.add(new Dove(i));
-        }  
-
         for (int i = 0; i < hawkPop; i++) {
             popList.add(new Hawk(i));
-        }
-        //shuffle the list
-        for (int i = 0; i < popList.size(); i++) {
-            int index = (int)(Math.random() * popList.size());
-            Object temp = popList.get(index);
-            popList.set(index, popList.get(i));
-            popList.set(i, temp);
+        }  
+
+        for (int i = hawkPop; i < population; i++) {
+            popList.add(new Dove(i));
         }
 
     }
