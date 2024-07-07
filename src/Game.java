@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -42,13 +43,15 @@ public class Game {
                    displaySorted();
                    break;
                case 4:
-                   have1000Interactions();
+                   haveInteractions(1000);
                    break;
                case 5:
-                   have1000Interactions();
+                   haveInteractions(10000);
                    break;
                case 6:
-                   have1000Interactions();
+                   System.out.print("Enter number of interactions: ");
+                   int n = scanner.nextInt();
+                   haveInteractions(n);
                    break;
                case 7:
                    stepThroughInteractions();
@@ -79,9 +82,72 @@ public class Game {
         throw new UnsupportedOperationException("Unimplemented method 'stepThroughInteractions'");
     }
 
-    private void have1000Interactions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'have1000Interactions'");
+    private void haveInteractions(int cycles) {
+       Random random = new Random();
+       int numEncounters = 0; 
+       for (int i = 0; i < cycles; i++) {
+            
+            Object o1 = popList.get(random.nextInt(popList.size()));
+            Object o2 = popList.get(random.nextInt(popList.size()));
+            if(o1 instanceof Dove && o2 instanceof Hawk) {
+                if(((Dove)o1).isAlive() && ((Hawk)o2).isAlive()) {
+                    System.out.println("Encounter: " + numEncounters);
+                    System.out.println("Individual " + ((Dove)o1).getId() + ":  Dove");
+                    System.out.println("Individual " + ((Hawk)o2).getId() + ":  Hawk");
+                    System.out.println("Hawk/Dove: " + "Hawk:  +" + this.resource + "  Dove:  +0");
+                    ((Dove)o1).interactWithHawk((Hawk)o2, this.resource);
+                    System.out.println("Individual " + ((Dove)o1).getId() + "= "+ ((Dove)o1).getResource() + "     Individual " + ((Hawk)o2).getId() + "= "+ ((Hawk)o2).getResource());
+                }
+                else{
+                    i--;
+                    continue;
+                }
+            }
+            if(o1 instanceof Hawk && o2 instanceof Dove) {
+                if(((Hawk)o1).isAlive() && ((Dove)o2).isAlive()) {
+                    System.out.println("Encounter: " + numEncounters);
+                    System.out.println("Individual " + ((Hawk)o1).getId() + ":  Hawk");
+                    System.out.println("Individual " + ((Dove)o2).getId() + ":  Dove");
+                    System.out.println("Hawk/Dove: " + "Hawk:  +" + this.resource + "  Dove:  +0");
+                    ((Hawk)o1).interactWithDove((Dove)o2, this.resource);
+                    System.out.println("Individual " + ((Hawk)o1).getId() + "= "+ ((Hawk)o1).getResource() + "     Individual " + ((Dove)o2).getId() + "= "+ ((Dove)o2).getResource());
+                }
+                else{
+                    i--;
+                    continue;
+                }
+            }
+            if(o1 instanceof Hawk && o2 instanceof Hawk) {
+                if(((Hawk)o1).isAlive() && ((Hawk)o2).isAlive()) {
+                    System.out.println("Encounter: " + numEncounters);
+                    System.out.println("Individual " + ((Hawk)o1).getId() + ":  Hawk");
+                    System.out.println("Individual " + ((Hawk)o2).getId() + ":  Hawk");
+                    System.out.println("Hawk/Hawk: " + "Hawk:  " + (this.resource - this.cost) + "     Hawk:  " + (-this.cost));
+                    ((Hawk)o1).interactWithHawk((Hawk)o2, this.resource, this.cost);
+                    System.out.println("Individual " + ((Hawk)o1).getId() + "= "+ ((Hawk)o1).getResource() + "     Individual " + ((Hawk)o2).getId() + "= "+ ((Hawk)o2).getResource());
+                }
+                else{
+                    i--;
+                    continue;
+                }
+            }
+            if(o1 instanceof Dove && o2 instanceof Dove) {
+                System.out.println("Encounter: " + numEncounters);
+                if(((Dove)o1).isAlive() && ((Dove)o2).isAlive()) {
+                    System.out.println("Individual " + ((Dove)o1).getId() + ":  Dove");
+                    System.out.println("Individual " + ((Dove)o2).getId() + ":  Dove");
+                    System.out.println("Dove/Dove: " + "Dove:  +" + this.resource/2 + "     Dove:  +" + this.resource/2);
+                    ((Dove)o1).interactWithDove((Dove)o2, this.resource);
+                    System.out.println("Individual " + ((Dove)o1).getId() + "= "+ ((Dove)o1).getResource() + "     Individual " + ((Dove)o2).getId() + "= "+ ((Dove)o2).getResource());
+                }
+                else{
+                    i--;
+                    continue;
+                }
+            }
+            numEncounters++;
+       }
+       
     }
 
     private void displaySorted() {
@@ -117,7 +183,7 @@ public class Game {
                 continue;
             }
             if(doves.get(i).getResource() > hawks.get(j).getResource()) {
-                System.out.println(doves.get(i).isAlive() ? "Dove: " : "Dead: " + doves.get(i).getResource());
+                System.out.println((doves.get(i).isAlive() ? "Dove: " : "Dead: ") + doves.get(i).getResource());
                 i++;
             } else {
                 System.out.println((hawks.get(j).isAlive() ? "Hawk: " : "Dead: ") + hawks.get(j).getResource());

@@ -29,5 +29,16 @@ public class Dove {
         return id;
     }
 
+    public void interactWithDove(Dove d, int resourcAmt) {
+        int bounty = resourcAmt / 2;
+        this.resource += bounty;
+        d.addResource(bounty);
+
+    }
+
+    public void interactWithHawk(Hawk h, int resourcAmt) {
+        h.addResource(resourcAmt);
+    }
+
 
 }
