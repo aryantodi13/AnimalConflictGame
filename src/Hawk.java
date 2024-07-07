@@ -26,4 +26,8 @@ public class Hawk {
         alive = false;
     }
 
+    public int getId() {
+        return id;
+    }
+
 }

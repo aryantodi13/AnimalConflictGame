@@ -25,5 +25,9 @@ public class Dove {
         alive = false;
     }
 
+    public int getId() {
+        return id;
+    }
+
 
 }

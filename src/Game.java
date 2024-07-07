@@ -85,18 +85,22 @@ public class Game {
     }
 
     private void displayIndividuals() {
-    //    int liveCount = 0;
-    //    for (int i = 0; i < popList.size(); i++) {
-    //        if (((Dove)popList.get(i)).isAlive()) {
-    //            liveCount++;
-    //        }
-    //    }
-    //    System.out.println("Total population: " + popList.size());
-    //    System.out.println("Total alive population: " + liveCount);
-    //    System.out.println("Total resource: " + resource);
-    //    System.out.println();
-
-    //    for (int i = 0; i < popList.size(); i++) {
+        int alivecount = 0;
+        for(Object o : popList) {
+            if(o instanceof Dove) {
+                if(((Dove)o).isAlive()) {
+                    alivecount++; 
+                }
+                System.out.println("Individual[" + ((Dove)o).getId() + "]=" + (((Dove)o).isAlive() ? "Dove" : "Dead" ) + ":" + ((Dove)o).getResource());
+            }
+            if(o instanceof Hawk) {
+                if(((Hawk)o).isAlive()) {
+                    alivecount++;
+                }
+                System.out.println("Individual[" + ((Hawk)o).getId() + "]=" + (((Hawk)o).isAlive() ? "Hawk" : "Dead")+ ":" + ((Hawk)o).getResource());
+            }
+        }
+        System.out.println("Living: " + alivecount);
     }
 
     public void displayMenu() {
