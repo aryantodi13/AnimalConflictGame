@@ -105,12 +105,22 @@ public class Game {
         // Display the sorted list of individuals
         int i =0;
         int j=0;
-        while(i<doves.size() && j<hawks.size()) {
+        while(i<doves.size() || j<hawks.size()) {
+            if (j>=hawks.size()) {
+                System.out.println((doves.get(i).isAlive() ? "Dove: " : "Dead: ") + doves.get(i).getResource());
+                i++;
+                continue;
+            }
+            if(i>=doves.size()) {
+                System.out.println((hawks.get(j).isAlive() ? "Hawk: " : "Dead: ") + hawks.get(j).getResource());
+                j++;
+                continue;
+            }
             if(doves.get(i).getResource() > hawks.get(j).getResource()) {
-                System.out.println(doves.get(i).isAlive() ? "Dove" : "Dead" + doves.get(i).getResource());
+                System.out.println(doves.get(i).isAlive() ? "Dove: " : "Dead: " + doves.get(i).getResource());
                 i++;
             } else {
-                System.out.println(hawks.get(j).isAlive() ? "Hawk" : "Dead" + hawks.get(j).getResource());
+                System.out.println((hawks.get(j).isAlive() ? "Hawk: " : "Dead: ") + hawks.get(j).getResource());
                 j++;
             }
         }
