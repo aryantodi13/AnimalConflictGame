@@ -43,15 +43,15 @@ public class Game {
                    displaySorted();
                    break;
                case 4:
-                   haveInteractions(1000);
+                   haveInteractions(1000, true, -1);
                    break;
                case 5:
-                   haveInteractions(10000);
+                   haveInteractions(10000, true, -1);
                    break;
                case 6:
                    System.out.print("Enter number of interactions: ");
                    int n = scanner.nextInt();
-                   haveInteractions(n);
+                   haveInteractions(n, true, -1);
                    break;
                case 7:
                    stepThroughInteractions();
@@ -78,15 +78,23 @@ public class Game {
     }
 
     private void stepThroughInteractions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stepThroughInteractions'");
+        int interactionNum = 0;
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            haveInteractions(1, false, interactionNum);
+            interactionNum++;
+            String command = sc.nextLine();
+            if (command.equalsIgnoreCase("stop")) break;
+        }
     }
 
-    private void haveInteractions(int cycles) {
+    private void haveInteractions(int cycles, boolean flag, int interactionNum) {
        Random random = new Random();
        int numEncounters = 0; 
        for (int i = 0; i < cycles; i++) {
-            
+            if (!flag){
+                numEncounters=interactionNum;
+            }
             Object o1 = popList.get(random.nextInt(popList.size()));
             Object o2 = popList.get(random.nextInt(popList.size()));
             if(o1 instanceof Dove && o2 instanceof Hawk) {
@@ -145,7 +153,11 @@ public class Game {
                     continue;
                 }
             }
+            
+            
             numEncounters++;
+            
+            
        }
        
     }
