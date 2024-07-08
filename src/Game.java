@@ -79,13 +79,15 @@ public class Game {
 
     private void stepThroughInteractions() {
         int interactionNum = 0;
+        Scanner sc = new Scanner(System.in);
         while (true){
-            Scanner sc = new Scanner(System.in);
+            
             haveInteractions(1, false, interactionNum);
             interactionNum++;
             String command = sc.nextLine();
             if (command.equalsIgnoreCase("stop")) break;
         }
+        sc.close();
     }
 
     private void haveInteractions(int cycles, boolean flag, int interactionNum) {
