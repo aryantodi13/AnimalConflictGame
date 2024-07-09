@@ -87,18 +87,31 @@ public class Game {
             String command = sc.nextLine();
             if (command.equalsIgnoreCase("stop")) break;
         }
-        sc.close();
+        sc.reset();
     }
 
     private void haveInteractions(int cycles, boolean flag, int interactionNum) {
+
+        // If only 1 alive remaining
+        if(popList.size() == 1) {
+            System.out.println("Cannot have interactions since only 1 animal is alive. ");
+            return ;
+        }
+
        Random random = new Random();
        int numEncounters = 0; 
        for (int i = 0; i < cycles; i++) {
             if (!flag){
                 numEncounters=interactionNum;
             }
-            Object o1 = popList.get(random.nextInt(popList.size()));
-            Object o2 = popList.get(random.nextInt(popList.size()));
+            int ind1 = random.nextInt(popList.size());
+            int ind2 = random.nextInt(popList.size());
+
+            // Both objects should be different
+            while(ind2 == ind1) ind2 = random.nextInt(popList.size());
+
+            Object o1 = popList.get(ind1);
+            Object o2 = popList.get(ind2);
             if(o1 instanceof Dove && o2 instanceof Hawk) {
                 if(((Dove)o1).isAlive() && ((Hawk)o2).isAlive()) {
                     System.out.println("Encounter: " + numEncounters);
@@ -205,8 +218,6 @@ public class Game {
             }
         }
     }
-        
-    
 
     private void displayIndividuals() {
         int alivecount = 0;
@@ -235,7 +246,7 @@ public class Game {
         System.out.println("4 ) Have 1000 interactions");
         System.out.println("5 ) Have 10000 interactions");  
         System.out.println("6 ) Have n interactions"); 
-        System.out.println("7 )Step through interactions \"Stop\" to return to menu");
+        System.out.println("7 ) Step through interactions \"Stop\" to return to menu");
         System.out.println("8 ) Quit");
         System.out.println("================================");
         System.out.println();
