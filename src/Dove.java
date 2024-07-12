@@ -1,3 +1,8 @@
+/*
+ * Author: Gnandeep Gottipati
+ * File: Hawk.java
+ */
+
 /**
  * The Dove class represents a dove with an id, resource amount, and alive status.
  */

@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+/*
+ * Author: Gnandeep Gottipati
+ * File: Hawk.java
+ */
 
 /**
  * The Hawk class represents a hawk in the simulation. Hawks will always fight
